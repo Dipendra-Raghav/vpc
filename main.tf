@@ -7,7 +7,10 @@ resource "aws_vpc" "main" {
   tags = merge(
     var.tags,
     {
-      Name = var.vpc_name
+      Name          = var.vpc_name
+      description   = var.description
+      requestor     = var.requestor
+      allocation-id = var.allocation_id
     }
   )
 }

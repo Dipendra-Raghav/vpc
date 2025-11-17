@@ -86,14 +86,12 @@ module "vpc" {
 |------|-------------|------|---------|:--------:|
 | vpc_name | Name of the VPC | `string` | n/a | yes |
 | vpc_cidr | CIDR block for the VPC | `string` | n/a | yes |
+| description | Free-text description for governance, reporting, and cost allocation | `string` | n/a | yes |
+| requestor | Person who requested the resource for governance and visibility | `string` | n/a | yes |
+| allocation_id | Application Portfolio Manager ID for cost tracking and governance | `string` | n/a | yes |
 | enable_dns_hostnames | Enable DNS hostnames in the VPC | `bool` | `true` | no |
 | enable_dns_support | Enable DNS support in the VPC | `bool` | `true` | no |
-| enable_flow_logs | Enable VPC Flow Logs | `bool` | `false` | no |
-| flow_logs_iam_role_arn | IAM role ARN for VPC Flow Logs | `string` | `""` | no |
-| flow_logs_destination_arn | Destination ARN for VPC Flow Logs | `string` | `""` | no |
-| flow_logs_destination_type | Type of flow logs destination | `string` | `"cloud-watch-logs"` | no |
-| flow_logs_traffic_type | Type of traffic to log | `string` | `"ALL"` | no |
-| tags | A map of tags to add to all resources | `map(string)` | `{}` | no |
+| tags | A map of additional tags to add to all resources | `map(string)` | `{}` | no |
 
 ## Outputs
 
@@ -117,6 +115,11 @@ module "vpc" {
   source   = "git::https://github.com/your-org/vpc-module.git?ref=v1.0.0"
   vpc_name = "my-team-vpc"
   vpc_cidr = "10.0.0.0/16"
+  
+  # Mandatory Tags
+  description   = "Production VPC for application workloads"
+  requestor     = "john.doe@example.com"
+  allocation_id = "APM-12345"
   
   tags = {
     Team        = "my-team"
