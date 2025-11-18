@@ -86,9 +86,9 @@ module "vpc" {
 |------|-------------|------|---------|:--------:|
 | vpc_name | Name of the VPC | `string` | n/a | yes |
 | vpc_cidr | CIDR block for the VPC | `string` | n/a | yes |
-| description | Free-text description for governance, reporting, and cost allocation | `string` | n/a | yes |
-| requestor | Person who requested the resource for governance and visibility | `string` | n/a | yes |
-| allocation_id | Application Portfolio Manager ID for cost tracking and governance | `string` | n/a | yes |
+| is_description | Free-text description for governance, reporting, and cost allocation | `string` | n/a | yes |
+| is_requestor | Person who requested the resource for governance and visibility | `string` | n/a | yes |
+| is_allocation_id | Application Portfolio Manager ID for cost tracking and governance | `string` | n/a | yes |
 | enable_dns_hostnames | Enable DNS hostnames in the VPC | `bool` | `true` | no |
 | enable_dns_support | Enable DNS support in the VPC | `bool` | `true` | no |
 | tags | A map of additional tags to add to all resources | `map(string)` | `{}` | no |
@@ -117,9 +117,9 @@ module "vpc" {
   vpc_cidr = "10.0.0.0/16"
   
   # Mandatory Tags
-  description   = "Production VPC for application workloads"
-  requestor     = "john.doe@example.com"
-  allocation_id = "APM-12345"
+  is_description   = "Production VPC for application workloads"
+  is_requestor     = "john.doe@example.com"
+  is_allocation_id = "APM-12345"
   
   tags = {
     Team        = "my-team"
