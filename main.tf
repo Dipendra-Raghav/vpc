@@ -9,7 +9,7 @@ resource "aws_vpc" "main" {
     var.vpc_tags,
     local.vpc_common_tags,
     {
-      Name = var.vpc_name
+      Name = "${var.account_name}-${var.vpc_name}"
     }
   )
 
@@ -82,7 +82,7 @@ resource "aws_flow_log" "main" {
     var.vpc_tags,
     local.vpc_common_tags,
     {
-      Name = "${var.vpc_name}-flow-logs"
+      Name = "${var.account_name}-${var.vpc_name}-flow-logs"
     }
   )
 
@@ -101,7 +101,7 @@ resource "aws_vpc_endpoint" "s3" {
     var.vpc_tags,
     local.vpc_common_tags,
     {
-      Name = "${var.vpc_name}-s3-endpoint"
+      Name = "${var.account_name}-${var.vpc_name}-s3-endpoint"
     }
   )
 
@@ -119,14 +119,14 @@ resource "aws_vpc_endpoint_route_table_association" "s3_custom" {
 
 # Default Security Group - Block All Traffic
 resource "aws_default_security_group" "default" {
-  count  = var.create_vpc && var.restrict_default_sg ? 1 : 0
+  count  = var.create_vpc ? 1 : 0
   vpc_id = aws_vpc.main[0].id
 
   tags = merge(
     var.vpc_tags,
     local.vpc_common_tags,
     {
-      Name            = "${var.vpc_name}-default-sg-restricted"
+      Name            = "${var.account_name}-${var.vpc_name}-default-sg"
       "Is:description" = "Restricted default security group - deny all traffic"
     }
   )
@@ -138,7 +138,7 @@ resource "aws_default_security_group" "default" {
 
 # Default Network ACL
 resource "aws_default_network_acl" "default" {
-  count                  = var.create_vpc && var.restrict_default_nacl ? 1 : 0
+  count                  = var.create_vpc ? 1 : 0
   default_network_acl_id = aws_vpc.main[0].default_network_acl_id
 
   # SSH from private networks
@@ -211,7 +211,7 @@ resource "aws_default_network_acl" "default" {
     var.vpc_tags,
     local.vpc_common_tags,
     {
-      Name = "${var.vpc_name}-default-nacl"
+      Name = "${var.account_name}-${var.vpc_name}-default-nacl"
     }
   )
 
@@ -234,7 +234,7 @@ resource "aws_default_route_table" "default" {
     var.vpc_tags,
     local.vpc_common_tags,
     {
-      Name            = "${var.vpc_name}-default-rt-tgw"
+      Name            = "${var.account_name}-${var.vpc_name}-default-rt"
       "Is:description" = "Default route table with TGW route"
     }
   )

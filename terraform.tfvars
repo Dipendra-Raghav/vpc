@@ -1,6 +1,7 @@
 # VPC Configuration
 create_vpc           = true
-vpc_name             = "dev-vpc"
+account_name         = "infra-core-nonprod"
+vpc_name             = "vpc"
 vpc_cidr             = "10.0.0.0/16"
 enable_dns_hostnames = true
 enable_dns_support   = true
@@ -60,12 +61,6 @@ flow_logs_s3_bucket_arn   = "arn:aws:s3:::sh-consolidated-vpcflowlogs/flow-logs/
 create_s3_endpoint = false  # Set to true to enable
 aws_region         = "us-east-1"
 
-# Default Security Group Restriction
-restrict_default_sg = false  # Set to true to deny all traffic in default SG
-
-# Default Network ACL Restriction
-restrict_default_nacl = false  # Set to true to allow only SSH/RDP from private networks
-
 # Transit Gateway Configuration
-tgw_id = null  # Provide TGW ID to route 0.0.0.0/0 -> TGW in default route table
-# Example: tgw_id = "tgw-0123456789abcdef0"
+# Default route table will have 0.0.0.0/0 -> TGW route
+tgw_id = "tgw-0f6bb6c26c80995cf"

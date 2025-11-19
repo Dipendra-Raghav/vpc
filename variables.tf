@@ -17,7 +17,12 @@ variable "existing_vpc_id" {
 }
 
 variable "vpc_name" {
-  description = "Name of the VPC"
+  description = "Name of the VPC (will be prefixed with account_name)"
+  type        = string
+}
+
+variable "account_name" {
+  description = "Account name for resource naming standard (e.g., 'prod', 'dev', 'staging')"
   type        = string
 }
 
@@ -225,20 +230,6 @@ variable "aws_region" {
   description = "AWS Region for VPC Endpoint service names"
   type        = string
   default     = "us-east-1"
-}
-
-# Default Security Group Configuration
-variable "restrict_default_sg" {
-  description = "Restrict default security group to deny all traffic"
-  type        = bool
-  default     = false
-}
-
-# Default Network ACL Configuration
-variable "restrict_default_nacl" {
-  description = "Restrict default network ACL to allow only SSH and RDP from private networks"
-  type        = bool
-  default     = false
 }
 
 # Transit Gateway Configuration
