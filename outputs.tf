@@ -14,18 +14,18 @@ output "vpc_cidr_block" {
 }
 
 output "default_security_group_id" {
-  description = "The ID of the default security group (only if VPC was created)"
-  value       = var.create_vpc ? aws_vpc.main[0].default_security_group_id : null
+  description = "The ID of the VPC's default security group (restricted to deny all traffic)"
+  value       = var.create_vpc ? aws_default_security_group.default[0].id : null
 }
 
 output "default_network_acl_id" {
-  description = "The ID of the default network ACL (only if VPC was created)"
-  value       = var.create_vpc ? aws_vpc.main[0].default_network_acl_id : null
+  description = "The ID of the VPC's default network ACL (restricted to SSH/RDP from private networks)"
+  value       = var.create_vpc ? aws_default_network_acl.default[0].id : null
 }
 
 output "default_route_table_id" {
-  description = "The ID of the default route table (only if VPC was created)"
-  value       = var.create_vpc ? aws_vpc.main[0].default_route_table_id : null
+  description = "The ID of the VPC's default route table (with TGW route if tgw_id provided)"
+  value       = var.create_vpc && var.tgw_id != null ? aws_default_route_table.default[0].id : (var.create_vpc ? aws_vpc.main[0].default_route_table_id : null)
 }
 
 output "vpc_name" {
@@ -59,19 +59,4 @@ output "vpc_flow_log_id" {
 output "s3_vpc_endpoint_id" {
   description = "ID of the S3 VPC Endpoint"
   value       = var.create_vpc && var.create_s3_endpoint ? aws_vpc_endpoint.s3[0].id : null
-}
-
-output "default_security_group_id_restricted" {
-  description = "ID of the restricted default security group"
-  value       = var.create_vpc && var.restrict_default_sg ? aws_default_security_group.default[0].id : null
-}
-
-output "default_network_acl_id_restricted" {
-  description = "ID of the restricted default network ACL"
-  value       = var.create_vpc && var.restrict_default_nacl ? aws_default_network_acl.default[0].id : null
-}
-
-output "default_route_table_id_tgw" {
-  description = "ID of the default route table with TGW route"
-  value       = var.create_vpc && var.tgw_id != null ? aws_default_route_table.default[0].id : null
 }

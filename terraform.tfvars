@@ -1,66 +1,58 @@
 # VPC Configuration
 create_vpc           = true
 account_name         = "infra-core-nonprod"
-vpc_name             = "vpc"
-vpc_cidr             = "10.0.0.0/16"
+vpc_name             = "vpc-test"
+vpc_cidr             = "10.182.250.0/24"
 enable_dns_hostnames = true
 enable_dns_support   = true
 
 # VPC Mandatory Tags
-vpc_is_description   = "Development VPC for application testing and development workloads"
-vpc_is_requestor     = "john.doe@example.com"
-vpc_is_allocation_id = "APM-12345"
-vpc_is_iac_repo      = "vpc"
+vpc_is_description   = "Test VPC with all features enabled for module validation"
+vpc_is_requestor     = "platform-team@example.com"
+vpc_is_allocation_id = "APM-TEST-001"
+vpc_is_iac_repo      = "https://github.com/company/vpc-module"
 vpc_is_iac           = "terraform"
 vpc_is_iac_version   = "1.0.0"
 
 # VPC Additional Tags
 vpc_tags = {
-  Environment = "development"
+  Environment = "sandbox"
   Team        = "platform-engineering"
   ManagedBy   = "Terraform"
-  Project     = "vpc-module-test"
+  Project     = "vpc-module-comprehensive-test"
+  CostCenter  = "Engineering"
 }
 
-# Custom Route Tables
-create_custom_route_tables = false
-# custom_route_table_names   = ["app-route-table", "db-route-table"]
+# Custom Route Tables - ENABLED
+create_custom_route_tables = true
+custom_route_table_names   = ["app-route-table"]
 
 # Route Table Mandatory Tags
-# route_table_is_description   = "Custom route tables for application and database tiers"
-# route_table_is_requestor     = "jane.smith@example.com"
-# route_table_is_allocation_id = "APM-12345"
-# route_table_is_iac_repo      = "vpc"
-# route_table_is_iac           = "terraform"
-# route_table_is_iac_version   = "1.0.0"
+route_table_is_description   = "Custom route tables for multi-tier architecture testing"
+route_table_is_requestor     = "network-team@example.com"
+route_table_is_allocation_id = "APM-TEST-001"
+route_table_is_iac_repo      = "https://github.com/company/vpc-module"
+route_table_is_iac           = "terraform"
+route_table_is_iac_version   = "1.0.0"
 
 # Route Table Additional Tags
-# route_table_tags = {
-#   Environment = "development"
-#   Team        = "networking"
-# }
+route_table_tags = {
+  Environment = "sandbox"
+  Team        = "networking"
+  Purpose     = "custom-routing"
+}
 
-# Subnet Associations (Update with your actual subnet IDs after creating subnets)
-# subnet_associations = [
-#   {
-#     subnet_id         = "subnet-12345678"
-#     route_table_index = 0
-#   },
-#   {
-#     subnet_id         = "subnet-87654321"
-#     route_table_index = 1
-#   }
-# ]
+# Subnet Associations - SKIP (no subnets created yet)
+subnet_associations = []
 
-# VPC Flow Logs Configuration
-enable_flow_logs          = false  # Set to true to enable
-flow_logs_iam_role_arn    = null   # Provide IAM role ARN when enabling
-flow_logs_s3_bucket_arn   = "arn:aws:s3:::sh-consolidated-vpcflowlogs/flow-logs/"
+# VPC Flow Logs Configuration - ENABLED
+enable_flow_logs        = true
+flow_logs_iam_role_arn  = null  # AWS will auto-create permissions for S3
+flow_logs_s3_bucket_arn = "arn:aws:s3:::sh-consolidated-vpcflowlogs"
 
-# S3 Gateway Endpoint
-create_s3_endpoint = false  # Set to true to enable
+# S3 Gateway Endpoint - ENABLED
+create_s3_endpoint = true
 aws_region         = "us-east-1"
 
-# Transit Gateway Configuration
-# Default route table will have 0.0.0.0/0 -> TGW route
-tgw_id = "tgw-0f6bb6c26c80995cf"
+# Transit Gateway Configuration - DISABLED (enable after TGW attachment exists)
+tgw_id = null  # Set to "tgw-0f6bb6c26c80995cf" after TGW attachment is created
